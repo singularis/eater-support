@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eater: Plataforma Inteligente de Chat y Seguimiento de Alimentos</title>
+    <meta name="description" content="Transforma tu relación con la comida usando chat con IA y seguimiento inteligente de alimentos. Obtén información nutricional personalizada, recomendaciones de comidas y registro de alimentos sin esfuerzo con reconocimiento fotográfico.">
+    <meta name="keywords" content="seguimiento de alimentos, chat IA, app nutrición, contador calorías, planificador comidas, reconocimiento comida, app salud">
+    <meta name="author" content="Equipo Eater">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourdomain.github.io/eater-support/es.html">
+    <meta property="og:title" content="Eater: Plataforma Inteligente de Chat y Seguimiento de Alimentos">
+    <meta property="og:description" content="Transforma tu relación con la comida usando chat con IA y seguimiento inteligente de alimentos.">
+    <meta property="og:image" content="https://yourdomain.github.io/eater-support/assets/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://yourdomain.github.io/eater-support/es.html">
+    <meta property="twitter:title" content="Eater: Plataforma Inteligente de Chat y Seguimiento de Alimentos">
+    <meta property="twitter:description" content="Transforma tu relación con la comida usando chat con IA y seguimiento inteligente de alimentos.">
+    <meta property="twitter:image" content="https://yourdomain.github.io/eater-support/assets/twitter-image.jpg">
+
+    <style>
+        :root {
+            --primary-color: #007AFF;
+            --secondary-color: #34C759;
+            --accent-color: #FF9500;
+            --text-primary: #1D1D1F;
+            --text-secondary: #6E6E73;
+            --background: #FFFFFF;
+            --surface: #F2F2F7;
+            --border: #D1D1D6;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--background);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .language-selector {
+            position: relative;
+        }
+
+        .language-btn {
+            background: none;
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .language-btn:hover {
+            background: var(--surface);
+            border-color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="80" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="60" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-color);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: var(--background);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px var(--shadow);
+            border-color: var(--primary-color);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Architecture Section */
+        .architecture {
+            padding: 80px 0;
+            background: var(--surface);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .tech-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .tech-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .tech-category {
+            font-size: 0.875rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 80px 0;
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            padding: 1rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text-primary);
+            color: white;
+            padding: 3rem 0 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            margin-bottom: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 100px 0 60px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="logo">
+                🍽️ Eater
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Características</a></li>
+                <li><a href="#architecture">Tecnología</a></li>
+                <li><a href="#stats">Estadísticas</a></li>
+                <li><a href="index.html">Soporte</a></li>
+            </ul>
+            <div class="language-selector">
+                <button class="language-btn" onclick="toggleLanguageMenu()">
+                    🌐 Español
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content fade-in-up">
+                <h1>Plataforma Inteligente de Chat y Seguimiento de Alimentos</h1>
+                <p>Transforma tu relación con la comida usando chat con IA y seguimiento inteligente de alimentos. Obtén información nutricional personalizada, recomendaciones de comidas y registro de alimentos sin esfuerzo con reconocimiento fotográfico.</p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-primary">
+                        📱 Descargar App
+                    </a>
+                    <a href="#features" class="btn btn-secondary">
+                        ✨ Explorar Características
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Características Poderosas</h2>
+                <p class="section-subtitle">Descubre cómo Eater combina tecnología de IA de vanguardia con diseño intuitivo para revolucionar tu viaje nutricional.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">💬</span>
+                    <h3 class="feature-title">Chat con IA</h3>
+                    <p class="feature-description">Integración multi-proveedor de IA con modelos OpenAI GPT y Google Gemini. Obtén respuestas inteligentes, procesamiento de visión y conversaciones conscientes del contexto con persistencia de memoria.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🍽️</span>
+                    <h3 class="feature-title">Seguimiento Inteligente de Alimentos</h3>
+                    <p class="feature-description">Reconocimiento de alimentos por IA desde fotos, seguimiento automático de calorías y nutrientes, sugerencias personalizadas de comidas y análisis completo de ingesta de alimentos.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔐</span>
+                    <h3 class="feature-title">Seguridad Empresarial</h3>
+                    <p class="feature-description">Autenticación multifactor con tokens JWT, integración con Google OAuth, Google Cloud DLP para protección de datos sensibles y gestión segura de sesiones basada en Redis.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📊</span>
+                    <h3 class="feature-title">Arquitectura Moderna</h3>
+                    <p class="feature-description">Diseño de microservicios construido para Kubernetes, Apache Kafka para procesamiento en tiempo real, infraestructura nativa en la nube con alta disponibilidad y monitoreo.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🥂</span>
+                    <h3 class="feature-title">Seguimiento de Alcohol</h3>
+                    <p class="feature-description">Detecta bebidas alcohólicas en fotos, registra el consumo automáticamente y consulta resúmenes y rangos de consumo para mejores perspectivas de salud.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">👥</span>
+                    <h3 class="feature-title">Características Sociales</h3>
+                    <p class="feature-description">Conéctate con amigos, comparte registros de alimentos e información nutricional, búsqueda de usuarios en tiempo real con autocompletado y gestiona amistades a través de nuestra base de datos de grafos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="architecture">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Stack Tecnológico</h2>
+                <p class="section-subtitle">Construido con tecnologías nativas en la nube modernas y servicios de IA líderes en la industria para máximo rendimiento y escalabilidad.</p>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-category">Servicios IA</div>
+                    <div class="tech-name">OpenAI GPT</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-category">Servicios IA</div>
+                    <div class="tech-name">Google Gemini</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-category">Backend</div>
+                    <div class="tech-name">Python Flask</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-category">Backend</div>
+                    <div class="tech-name">Servicios Java</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-category">Mensajería</div>
+                    <div class="tech-name">Apache Kafka</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-category">Base de Datos</div>
+                    <div class="tech-name">PostgreSQL</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-category">BD Grafos</div>
+                    <div class="tech-name">Neo4j</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-category">Caché</div>
+                    <div class="tech-name">Redis</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-category">Infraestructura</div>
+                    <div class="tech-name">Kubernetes</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-category">Nube</div>
+                    <div class="tech-name">Google Cloud</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-category">Visión</div>
+                    <div class="tech-name">Visión por Computadora</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-category">Seguridad</div>
+                    <div class="tech-name">Prevención Pérdida Datos</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats" class="stats">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Métricas de la Plataforma</h2>
+                <p class="section-subtitle">Experimenta el poder de nuestra arquitectura integral de microservicios</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">12+</span>
+                    <span class="stat-label">Microservicios</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">Proveedores IA</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">99.9%</span>
+                    <span class="stat-label">Tiempo Actividad</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">36</span>
+                    <span class="stat-label">Idiomas</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="index.html">Soporte</a>
+                    <a href="#privacy">Política de Privacidad</a>
+                    <a href="#terms">Términos de Servicio</a>
+                    <a href="mailto:singularis314@gmail.com">Contacto</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Eater - Plataforma Inteligente de Chat y Seguimiento de Alimentos. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Header background on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+
+        // Language selector functionality
+        function toggleLanguageMenu() {
+            window.location.href = 'marketing.html';
+        }
+
+        // Add fade-in animation to elements when they come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all feature cards and tech cards
+        document.querySelectorAll('.feature-card, .tech-card, .stat-item').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
